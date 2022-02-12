@@ -45,7 +45,7 @@ package.json 文件支持 macOS, Windows, Linux 的应用程序构建。
 
 在项目根目录打开命令行，运行以下命令：
 
-<code>$ npm run package-mac</code>
+<code>$ npm run dist</code>
 
 应用程序安装包在 *release-builds* 目录下。
 
