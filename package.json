@@ -2,10 +2,12 @@
   "name": "weread",
   "productName": "WeRead",
   "description": "WeRead",
+  "homepage": "https://github.com/NeilYXIN/WeRead_Desktop",
   "keywords": [],
   "main": "./main.js",
   "version": "1.0.2",
-  "author": "NeilYXIN",
+  "author": "Xin Yang <96xinyang@gmail.com> (https://neilyxin.com)",
+  "maintainer": "${author}",
   "license": "MIT",
   "scripts": {
     "postinstall": "electron-builder install-app-deps",
