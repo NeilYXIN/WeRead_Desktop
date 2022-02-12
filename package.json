@@ -10,7 +10,8 @@
     "start": "electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
-    "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icon.icns --prune=true --out=release-builds"
+    "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icon.icns --prune=true --out=release-builds",
+    "dist": "electron-installer-dmg release-builds/WeRead-darwin-x64/WeRead.app WeRead"
   },
   "devDependencies": {
     "@electron-forge/cli": "^6.0.0-beta.63",
@@ -56,6 +57,20 @@
     "appId": "com.neilyxin.weread",
     "productName": "WeRead",
     "copyright": "Copyright © 2022 ${author}",
+    "dmg": {
+      "contents": [
+        {
+          "x": 110,
+          "y": 150
+        },
+        {
+          "x": 240,
+          "y": 150,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
     "mac": {
       "icon": "./assets/icon.icns",
       "category": "public.app-category.utilities"
