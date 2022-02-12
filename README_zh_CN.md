@@ -6,20 +6,20 @@
 ![](/screenshots/WeRead_for_macOS-v1.0.0.webp)
 
  ## 描述
- 微信读书 macOS 客户端-基于 Electron.
+ 微信读书 macOS 客户端-基于 Electron。
 
  根据 Electron Quick Start 进行简单修改完成，本质上就是一个只能打开微信读书网页版的浏览器App。
 
  基于Intel Mac开发，Apple Silicon (M1) 设备的兼容性未知。
 
  ## 安装
- - 下载最新的 [DMG 文件](https://github.com/NeilYXIN/WeRead_mac/releases/tag/v1.0.0).
-- 打开 DMG 文件，拖动图标到应用程序文件夹即可
+ - 下载最新的 [DMG 文件](https://github.com/NeilYXIN/WeRead_mac/releases/tag/v1.0.0)。
+- 打开 DMG 文件，拖动图标到应用程序文件夹即可。
 
 ## 特性
 - 基于 Electron 17.0.0 和 Chromium 98。
 - 在 Electron [Quick Start](https://www.electronjs.org/docs/latest/tutorial/quick-start) 的基础上只进行了最低限度的改动。
-- 高清图标，适配 macOS Big Sur 之后的设计风格.
+- 高清图标，适配 macOS Big Sur 之后的设计风格。
 
 ## 构建说明 (electron-packager)
 ### 构建应用程序: 
