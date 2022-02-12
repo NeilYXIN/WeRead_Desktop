@@ -1,7 +1,7 @@
 # WeRead_mac / 微信读书 Mac客户端
  WeRead client for macOS / 微信读书 Mac客户端
 
-Chinese version/中文说明: [README](\README_zh_CN.md) 
+Chinese version/中文说明: [README](https://github.com/NeilYXIN/WeRead_mac/blob/main/README_zh_CN.md) 
 
  ## Description
  Electron-based macOS client for WeRead(微信读书).
