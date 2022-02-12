@@ -28,16 +28,21 @@
 
 
 ## 安装:
+### 下载: https://github.com/NeilYXIN/WeRead_Desktop/releases
 - ### Mac (Intel 和 M1):
-    - 下载最新的 [DMG 文件](https://github.com/NeilYXIN/WeRead_mac/releases)。
+    - 下载最新的 DMG 文件。
     - 打开 DMG 文件，拖动图标到应用程序文件夹即可。
 
 - ### Windows:
     - (待更新)
 
 - ### Linux:
-    - (待更新)
+    - 方式 1: deb 安装包
+        - 下载 deb 安装包。
+        - 打开并点击安装。
 
+    - 方式 2: AppImage 程序文件
+        - 下载至喜好的文件夹后直接打开运行 (需要可执行权限)。
 
 ## 构建说明 (electron-builder)：
 ### 构建应用程序: 

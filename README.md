@@ -26,16 +26,21 @@ Chinese version / 中文说明: [README](README_zh_CN.md)
 - v1.0.0 First release with only Mac (Intel) support, built by electron-packager
 
 ## Installation:
+### Download Latest Release: https://github.com/NeilYXIN/WeRead_Desktop/releases
 - ### Mac (Intel and M1):
-    - Download the DMG file from the [latest release](https://github.com/NeilYXIN/WeRead_mac/releases).
+    - Download the DMG installer.
     - Open the DMG file, drag the WeRead App into the Application folder.
-    - Enjoy!
 
 - ### Windows:
     - (To be updated)
 
 - ### Linux:
-    - (To be updated)
+    - Method 1: Install deb Package
+        - Download the deb package installer.
+        - Open the deb installer and click install.
+
+    - Method 2: Use AppImage File
+        - Download to your prefered location and open it (requires executable permission).
 
 ## How to build (with electron-builder):
 
