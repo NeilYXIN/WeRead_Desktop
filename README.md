@@ -3,7 +3,7 @@
 
 Chinese version/中文说明: [README](README_zh_CN.md) 
 
-![](/screenshots/WeRead_for_macOS-v1.0.0.png)
+![](/screenshots/WeRead_for_macOS-v1.0.0.webp)
 
  ## Description
  Electron-based macOS client for WeRead(微信读书).

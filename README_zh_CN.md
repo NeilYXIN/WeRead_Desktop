@@ -3,7 +3,7 @@
 
 英文说明/English version: [README](README.md) 
 
-![](/screenshots/WeRead_for_macOS-v1.0.0.png)
+![](/screenshots/WeRead_for_macOS-v1.0.0.webp)
 
  ## 描述
  微信读书 macOS 客户端-基于 Electron.
