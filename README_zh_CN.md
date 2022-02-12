@@ -1,5 +1,5 @@
 # 微信读书 Mac客户端 / WeRead_mac
-微信读书 Mac客户端 / WeRead client for macOS
+微信读书 Mac客户端 (非官方) / WeRead client for macOS (Unofficial)
 
 英文说明/English version: [README](README.md) 
 
