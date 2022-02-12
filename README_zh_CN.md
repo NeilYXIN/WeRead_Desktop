@@ -1,4 +1,4 @@
-# 微信读书 Mac客户端 / WeRead_mac
+# 微信读书 桌面客户端 / WeRead_Desktop
 微信读书（网页版）桌面客户端 (非官方) / WeRead Desktop Client (Unofficial)
 
 英文说明 / English version: [README](README.md) 

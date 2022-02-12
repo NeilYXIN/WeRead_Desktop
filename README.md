@@ -1,4 +1,4 @@
-# WeRead_mac / 微信读书 Mac客户端
+# WeRead_Desktop / 微信读书 桌面客户端
 WeRead Desktop Client (Unofficial) / 微信读书（网页版）桌面客户端 (非官方)
 
 Chinese version / 中文说明: [README](README_zh_CN.md) 
@@ -6,7 +6,7 @@ Chinese version / 中文说明: [README](README_zh_CN.md)
 ![](/assets/screenshots/WeRead_for_macOS-v1.0.0.webp)
 
  ## Description:
- Electron-based desktop client for WeRead(微信读书). Supports macOS (Intel, M1), Windows, Linux.
+ Electron-based desktop client for WeRead (微信读书). Supports macOS (Intel, M1), Windows, Linux.
 
  Modified on top of the Electron Quick Start guide, which means it's essentially just a web browser that can open the WeRead webpage for you.
 
