@@ -1,43 +1,51 @@
 # WeRead_mac / 微信读书 Mac客户端
-WeRead client for macOS (Unofficial) / 微信读书 Mac客户端 (非官方)
+WeRead Desktop Client (Unofficial) / 微信读书（网页版）桌面客户端 (非官方)
 
-Chinese version/中文说明: [README](README_zh_CN.md) 
+Chinese version / 中文说明: [README](README_zh_CN.md) 
 
-![](/screenshots/WeRead_for_macOS-v1.0.0.webp)
+![](/assets/screenshots/WeRead_for_macOS-v1.0.0.webp)
 
- ## Description
- Electron-based macOS client for WeRead(微信读书).
+ ## Description:
+ Electron-based desktop client for WeRead(微信读书). Supports macOS (Intel, M1), Windows, Linux.
 
  Modified on top of the Electron Quick Start guide, which means it's essentially just a web browser that can open the WeRead webpage for you.
 
- Tested only on Intel chips, compatibility on Apple Silicon (M1) chips not verified.
+ Tested only on macOS with Intel chips, compatibility on other platforms not verified.
 
- ## Installation
- - Download the DMG file from the [latest release](https://github.com/NeilYXIN/WeRead_mac/releases/tag/v1.0.0).
-- Open the DMG file, drag the WeRead App into the Application folder.
-- Enjoy!
-
-## Features
+## Features:
 - Based on Electron 17.0.0 and Chromium 98.
+- Supports macOS, Windows, Linux.
 - Minimum modification on the Electron [Quick Start](https://www.electronjs.org/docs/latest/tutorial/quick-start) guide.
 - High-resolution icon that matches the latest design since macOS Big Sur.
 
-## How to build (electron-packager)
-### App Generation: 
+## What's new:
+- v1.0.2 Organized directory, change build tools as electron-builder, add support for Apple Silicon, Windows, and Linux.
+
+- v1.0.1 Same source code, just updated READMEs.
+
+- v1.0.0 First release with only Mac (Intel) support, built by electron-packager
+
+## Installation:
+- ### Mac (Intel and M1):
+    - Download the DMG file from the [latest release](https://github.com/NeilYXIN/WeRead_mac/releases).
+    - Open the DMG file, drag the WeRead App into the Application folder.
+    - Enjoy!
+
+- ### Windows:
+    - (To be updated)
+
+- ### Linux:
+    - (To be updated)
+
+## How to build (with electron-builder):
+
+The package.json supports build targets for macOS, Windows, and Linux. 
 
 Open a terminal in the project root directory and run the below command:
 
-<code>npm run package-mac</code>
+<code>$ npm run dist</code>
 
-The .app file can be found under */release-builds/WeRead-darwin-x64/*.
-
-### DMG File Generation:
-
-Open a terminal in the project root directory and run the below command:
-
-<code>npm run dist</code>
-
-The DMG file can be found under the *root dir*.
+The installer can be found under the *release-builds* directory.
 
 ## Notes
 I'm not an Electron pro and this app was my only experience with it. Purely developed as a hobby for my daily convenience. 

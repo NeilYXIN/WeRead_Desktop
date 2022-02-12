@@ -1,92 +1,66 @@
 {
   "name": "weread",
   "productName": "WeRead",
-  "description": "My Electron application description",
+  "description": "WeRead",
   "keywords": [],
   "main": "./main.js",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "author": "NeilYXIN",
+  "license": "MIT",
   "scripts": {
-    "start": "electron-forge start",
-    "package": "electron-forge package",
-    "make": "electron-forge make",
-    "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icon.icns --prune=true --out=release-builds",
-    "dist": "electron-installer-dmg release-builds/WeRead-darwin-x64/WeRead.app WeRead"
+    "postinstall": "electron-builder install-app-deps",
+    "dir": "electron-builder --dir",
+    "dist": "electron-builder"
   },
   "devDependencies": {
-    "@electron-forge/cli": "^6.0.0-beta.63",
-    "@electron-forge/maker-deb": "^6.0.0-beta.63",
-    "@electron-forge/maker-rpm": "^6.0.0-beta.63",
-    "@electron-forge/maker-squirrel": "^6.0.0-beta.63",
-    "@electron-forge/maker-zip": "^6.0.0-beta.63",
     "electron": "^17.0.0",
-    "electron-packager": "^15.4.0"
-  },
-  "license": "ISC",
-  "dependencies": {
-    "electron-squirrel-startup": "^1.0.0"
-  },
-  "config": {
-    "forge": {
-      "packagerConfig": {},
-      "makers": [
-        {
-          "name": "@electron-forge/maker-squirrel",
-          "config": {
-            "name": "weread"
-          }
-        },
-        {
-          "name": "@electron-forge/maker-zip",
-          "platforms": [
-            "darwin"
-          ]
-        },
-        {
-          "name": "@electron-forge/maker-deb",
-          "config": {}
-        },
-        {
-          "name": "@electron-forge/maker-rpm",
-          "config": {}
-        }
-      ]
-    }
+    "electron-builder": "^22.14.13",
+    "electron-icon-builder": "^2.0.1"
   },
   "build": {
-    "appId": "com.neilyxin.weread",
+    "appId": "com.neilyxin.${name}",
     "productName": "WeRead",
+    "directories": {
+      "output": "release-builds",
+      "buildResources": "assets"
+    },
     "copyright": "Copyright © 2022 ${author}",
     "dmg": {
+      "background": null,
+      "backgroundColor": "#ffffff",
+      "window": {
+          "width": "400",
+          "height": "300"
+      },
       "contents": [
-        {
-          "x": 110,
-          "y": 150
-        },
-        {
-          "x": 240,
-          "y": 150,
-          "type": "link",
-          "path": "/Applications"
-        }
+          {
+              "x": 100,
+              "y": 100
+          },
+          {
+              "x": 300,
+              "y": 100,
+              "type": "link",
+              "path": "/Applications"
+          }
       ]
     },
     "mac": {
-      "icon": "./assets/icon.icns",
-      "category": "public.app-category.utilities"
+        "target": {
+          "target": "dmg",
+          "arch": "universal"
+        },
+        "icon": "assets/icons/mac/icon.icns",
+        "category": "public.app-category.utilities"
     },
     "win": {
-      "icon": "./assets/icon.icns"
+        "target": "nsis",
+        "icon": "assets/icons/win/icon.ico"
     },
-    "files": [
-      "./build/**/*",
-      "./dist/**/*",
-      "./node_modules/**/*",
-      "./assets/**/*",
-      "*.js"
-    ],
-    "directories": {
-      "buildResources": "assets"
+    "linux": {
+        "target": ["AppImage", "deb"],
+        "icon": "assets/icons/png",
+        "category": "Utility"
     }
   }
 }

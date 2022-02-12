@@ -7,7 +7,7 @@ function createWindow () {
   const mainWindow = new BrowserWindow({
     width: 1280,
     height: 800,
-    icon: path.join(__dirname, 'assets/icon.icns'),
+    // icon: path.join(__dirname, 'assets/icon.icns'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       partition: 'persist:infragistics'
