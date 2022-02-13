@@ -20,13 +20,13 @@
     "electron-icon-builder": "^2.0.1"
   },
   "build": {
-    "appId": "com.neilyxin.${name}",
+    "appId": "com.neilyxin.weread",
     "productName": "WeRead",
     "directories": {
       "output": "release-builds",
       "buildResources": "assets"
     },
-    "copyright": "Copyright © 2022 ${author}",
+    "copyright": "Copyright © 2022 Xin Yang",
     "dmg": {
       "background": null,
       "backgroundColor": "#ffffff",
