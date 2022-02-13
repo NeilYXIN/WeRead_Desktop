@@ -25,16 +25,21 @@
 
 - v1.0.0 初版，仅支持 Mac (Intel)，使用 electron-packager 构建。
 
-
+## 下载: 
+- [最新 Release](https://github.com/NeilYXIN/WeRead_Desktop/releases/latest)
+- [Mac 安装包 (Universal)](https://github.com/NeilYXIN/WeRead_Desktop/releases/download/v1.0.2/WeRead-1.0.2-universal.dmg)
+- [Windows 安装包 (x64)](https://github.com/NeilYXIN/WeRead_Desktop/releases/download/v1.0.2/WeRead.Setup.1.0.2.exe)
+- [Linux 安装包 (deb)](https://github.com/NeilYXIN/WeRead_Desktop/releases/download/v1.0.2/weread_1.0.2_amd64.deb)
+- [Linux 程序文件 (AppImage)](https://github.com/NeilYXIN/WeRead_Desktop/releases/download/v1.0.2/WeRead-1.0.2.AppImage)
 
 ## 安装:
-### 下载: https://github.com/NeilYXIN/WeRead_Desktop/releases
 - ### Mac (Intel 和 M1):
-    - 下载最新的 DMG 文件。
-    - 打开 DMG 文件，拖动图标到应用程序文件夹即可。
+    - 下载 dmg 安装包。
+    - 打开 dmg 文件，拖动图标到应用程序文件夹即可。
 
 - ### Windows:
-    - (待更新)
+    - 下载 exe 安装包。
+    - 打开安装包后自动完成安装。
 
 - ### Linux:
     - 方式 1: deb 安装包

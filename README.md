@@ -25,14 +25,21 @@ Chinese version / 中文说明: [README](README_zh_CN.md)
 
 - v1.0.0 First release with only Mac (Intel) support, built by electron-packager
 
+## Download: 
+- [Latest Release](https://github.com/NeilYXIN/WeRead_Desktop/releases/latest)
+- [Mac Installer (Universal)](https://github.com/NeilYXIN/WeRead_Desktop/releases/download/v1.0.2/WeRead-1.0.2-universal.dmg)
+- [Windows Installer (x64)](https://github.com/NeilYXIN/WeRead_Desktop/releases/download/v1.0.2/WeRead.Setup.1.0.2.exe)
+- [Linux Installer (deb)](https://github.com/NeilYXIN/WeRead_Desktop/releases/download/v1.0.2/weread_1.0.2_amd64.deb)
+- [Linux Application (AppImage)](https://github.com/NeilYXIN/WeRead_Desktop/releases/download/v1.0.2/WeRead-1.0.2.AppImage)
+
 ## Installation:
-### Download Latest Release: https://github.com/NeilYXIN/WeRead_Desktop/releases
 - ### Mac (Intel and M1):
-    - Download the DMG installer.
-    - Open the DMG file, drag the WeRead App into the Application folder.
+    - Download the dmg installer.
+    - Open the dmg file, drag the WeRead App into the Application folder.
 
 - ### Windows:
-    - (To be updated)
+    - Download the exe installer.
+    - Open the exe installer to complete installation.
 
 - ### Linux:
     - Method 1: Install deb Package
