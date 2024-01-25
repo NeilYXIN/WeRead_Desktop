@@ -5,19 +5,22 @@
   "homepage": "https://github.com/NeilYXIN/WeRead_Desktop",
   "keywords": [],
   "main": "./main.js",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "author": "Xin Yang <96xinyang@gmail.com> (https://neilyxin.com)",
   "maintainer": "${author}",
   "license": "MIT",
   "scripts": {
+    "start": "electron .",
     "postinstall": "electron-builder install-app-deps",
     "dir": "electron-builder --dir",
     "dist": "electron-builder"
   },
   "devDependencies": {
-    "electron": "^17.0.0",
-    "electron-builder": "^22.14.13",
-    "electron-icon-builder": "^2.0.1"
+    "electron": "^28.2.0",
+    "electron-builder": "^24.9.1",
+    "electron-icon-builder": "^2.0.1",
+    "yargs": "^17.7.2",
+    "yargs-parser": "^21.1.1"
   },
   "build": {
     "appId": "com.neilyxin.weread",
@@ -26,43 +29,46 @@
       "output": "release-builds",
       "buildResources": "assets"
     },
-    "copyright": "Copyright © 2022 Xin Yang",
+    "copyright": "Copyright © 2024 Xin Yang",
     "dmg": {
       "background": null,
       "backgroundColor": "#ffffff",
       "window": {
-          "width": "400",
-          "height": "300"
+        "width": "400",
+        "height": "300"
       },
       "contents": [
-          {
-              "x": 100,
-              "y": 100
-          },
-          {
-              "x": 300,
-              "y": 100,
-              "type": "link",
-              "path": "/Applications"
-          }
+        {
+          "x": 100,
+          "y": 100
+        },
+        {
+          "x": 300,
+          "y": 100,
+          "type": "link",
+          "path": "/Applications"
+        }
       ]
     },
     "mac": {
-        "target": {
-          "target": "dmg",
-          "arch": "universal"
-        },
-        "icon": "assets/icons/mac/icon.icns",
-        "category": "public.app-category.utilities"
+      "target": {
+        "target": "dmg",
+        "arch": "universal"
+      },
+      "icon": "assets/icons/mac/icon.icns",
+      "category": "public.app-category.utilities"
     },
     "win": {
-        "target": "nsis",
-        "icon": "assets/icons/win/icon.ico"
+      "target": "nsis",
+      "icon": "assets/icons/win/icon.ico"
     },
     "linux": {
-        "target": ["AppImage", "deb"],
-        "icon": "assets/icons/png",
-        "category": "Utility"
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "icon": "assets/icons/png",
+      "category": "Utility"
     }
   }
 }
