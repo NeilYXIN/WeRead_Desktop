@@ -12,7 +12,7 @@ Chinese version / 中文说明: [README](README_zh_CN.md)
 
 ## Features:
 - Based on Electron 28.2.0 and Chromium 120.
-- Supports macOS, Windows, Linux.
+- Supports macOS, Windows (≥10), Linux.
 - High-resolution icon that matches the latest design after macOS Big Sur.
 
 ## What's new:
@@ -36,7 +36,7 @@ Chinese version / 中文说明: [README](README_zh_CN.md)
     - Download the dmg installer.
     - Open the dmg file, drag the WeRead App into the Application folder.
 
-- ### Windows:
+- ### Windows (≥10):
     - Download the exe installer.
     - Open the exe installer to complete installation.
 

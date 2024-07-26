@@ -12,7 +12,7 @@
 
 ## 特性：
 - 基于 Electron 28.2.0 和 Chromium 120.
-- 支持 macOS, Windows, Linux。
+- 支持 macOS, Windows (≥10), Linux。
 - 高清图标，适配 macOS Big Sur 之后的设计风格。
 
 ## 更新：
@@ -36,7 +36,7 @@
     - 下载 dmg 安装包。
     - 打开 dmg 文件，拖动图标到应用程序文件夹即可。
 
-- ### Windows:
+- ### Windows (≥10):
     - 下载 exe 安装包。
     - 打开安装包后自动完成安装。
 
