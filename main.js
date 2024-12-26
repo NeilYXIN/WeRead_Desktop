@@ -10,9 +10,15 @@ function createWindow () {
     // icon: path.join(__dirname, 'assets/icon.icns'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
+      contextIsolation: true, // Ensure isolation
+      nodeIntegration: false, // Avoid conflicts with web content
       partition: 'persist:infragistics'
     },
   })
+
+  mainWindow.webContents.setUserAgent(
+    `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/${process.versions.chrome} Safari/537.36`
+  );
 
   // and load the index.html of the app.
   // mainWindow.loadFile('index.html')
@@ -27,7 +33,6 @@ function createWindow () {
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
   createWindow()
-
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.

@@ -5,7 +5,7 @@
   "homepage": "https://github.com/NeilYXIN/WeRead_Desktop",
   "keywords": [],
   "main": "./main.js",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "author": "Xin Yang <96xinyang@gmail.com> (https://neilyxin.com)",
   "maintainer": "${author}",
   "license": "MIT",
@@ -16,8 +16,8 @@
     "dist": "electron-builder"
   },
   "devDependencies": {
-    "electron": "^28.2.0",
-    "electron-builder": "^24.9.1",
+    "electron": "^33.3.0",
+    "electron-builder": "^25.1.8",
     "electron-icon-builder": "^2.0.1",
     "yargs": "^17.7.2",
     "yargs-parser": "^21.1.1"

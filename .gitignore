@@ -78,3 +78,4 @@ typings/
 
 release-builds/
 *.dmg
+package-lock.json
