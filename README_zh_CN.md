@@ -11,11 +11,13 @@
  根据 [Electron Quick Start](https://www.electronjs.org/docs/latest/tutorial/quick-start) 的基础进行最低限度的改动完成，本质上就是一个能打开微信读书网页版的套壳浏览器 app。
 
 ## 特性：
-- 基于 Electron 28.2.0 和 Chromium 120.
+- 基于 Electron 33.3.0 和 Chromium 130.
 - 支持 macOS, Windows (≥10), Linux。
 - 高清图标，适配 macOS Big Sur 之后的设计风格。
 
 ## 更新：
+- v1.0.4 修复了书架分组无法打开的问题，更新了 electron 和 electron-build 版本。
+
 - v1.0.3 更新了 electron 和 electron-build 版本。
 
 - v1.0.2 重新整理目录，构建工具改为 electron-builder，增加了对 Apple Silicon, Windows, 和 Linux 的支持。
@@ -26,10 +28,10 @@
 
 ## 下载: 
 - [最新 Release](https://github.com/NeilYXIN/WeRead_Desktop/releases/latest)
-- [Mac 安装包 (Universal)](https://github.com/NeilYXIN/WeRead_Desktop/releases/download/v1.0.3/WeRead-1.0.3-universal.dmg)
-- [Windows 安装包 (x64)](https://github.com/NeilYXIN/WeRead_Desktop/releases/download/v1.0.3/WeRead.Setup.1.0.3.exe)
-- [Linux 安装包 (deb)](https://github.com/NeilYXIN/WeRead_Desktop/releases/download/v1.0.3/weread_1.0.3_amd64.deb)
-- [Linux 程序文件 (AppImage)](https://github.com/NeilYXIN/WeRead_Desktop/releases/download/v1.0.3/WeRead-1.0.3.AppImage)
+- [Mac 安装包 (Universal)](https://github.com/NeilYXIN/WeRead_Desktop/releases/download/v1.0.4/WeRead-1.0.4-universal.dmg)
+- [Windows 安装包 (x64)](https://github.com/NeilYXIN/WeRead_Desktop/releases/download/v1.0.4/WeRead.Setup.1.0.4.exe)
+- [Linux 安装包 (deb)](https://github.com/NeilYXIN/WeRead_Desktop/releases/download/v1.0.4/weread_1.0.4_amd64.deb)
+- [Linux 程序文件 (AppImage)](https://github.com/NeilYXIN/WeRead_Desktop/releases/download/v1.0.4/WeRead-1.0.4.AppImage)
 
 ## 安装:
 - ### Mac (Intel 和 M1):

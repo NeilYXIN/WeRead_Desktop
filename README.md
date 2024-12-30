@@ -11,11 +11,13 @@ Chinese version / 中文说明: [README](README_zh_CN.md)
  Built on top of the [Electron Quick Start](https://www.electronjs.org/docs/latest/tutorial/quick-start) guide, with minimum modifications, which means it's essentially just a web browser that opens the WeRead website.
 
 ## Features:
-- Based on Electron 28.2.0 and Chromium 120.
+- Based on Electron 33.3.0 and Chromium 130.
 - Supports macOS, Windows (≥10), Linux.
 - High-resolution icon that matches the latest design after macOS Big Sur.
 
 ## What's new:
+- v1.0.4 Fixed the issue of unable to open grouped books in shelf. Updated electron and electron-build version.
+
 - v1.0.3 Updated electron and electron-build version.
 
 - v1.0.2 Organized directory, change build tools as electron-builder, add support for Apple Silicon, Windows, and Linux.
@@ -26,10 +28,10 @@ Chinese version / 中文说明: [README](README_zh_CN.md)
 
 ## Download: 
 - [Latest Release](https://github.com/NeilYXIN/WeRead_Desktop/releases/latest)
-- [Mac Installer (Universal)](https://github.com/NeilYXIN/WeRead_Desktop/releases/download/v1.0.3/WeRead-1.0.3-universal.dmg)
-- [Windows Installer (x64)](https://github.com/NeilYXIN/WeRead_Desktop/releases/download/v1.0.3/WeRead.Setup.1.0.3.exe)
-- [Linux Installer (deb)](https://github.com/NeilYXIN/WeRead_Desktop/releases/download/v1.0.3/weread_1.0.3_amd64.deb)
-- [Linux Application (AppImage)](https://github.com/NeilYXIN/WeRead_Desktop/releases/download/v1.0.3/WeRead-1.0.3.AppImage)
+- [Mac Installer (Universal)](https://github.com/NeilYXIN/WeRead_Desktop/releases/download/v1.0.4/WeRead-1.0.4-universal.dmg)
+- [Windows Installer (x64)](https://github.com/NeilYXIN/WeRead_Desktop/releases/download/v1.0.4/WeRead.Setup.1.0.4.exe)
+- [Linux Installer (deb)](https://github.com/NeilYXIN/WeRead_Desktop/releases/download/v1.0.4/weread_1.0.4_amd64.deb)
+- [Linux Application (AppImage)](https://github.com/NeilYXIN/WeRead_Desktop/releases/download/v1.0.4/WeRead-1.0.4.AppImage)
 
 ## Installation:
 - ### Mac (Intel and M1):
