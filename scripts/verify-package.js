@@ -19,6 +19,14 @@ function findFiles (directory, filename) {
   })
 }
 
+function findUnexpectedAsarEntries (listing) {
+  return listing
+    .split(/\r?\n/)
+    .filter(Boolean)
+    .map((entry) => entry.replace(/^[\\/]+/, '').split(/[\\/]/)[0])
+    .filter((entry) => !expectedTopLevelEntries.has(entry))
+}
+
 function resolveFuseTarget (asarPath, platform, packageMetadata) {
   const resourcesDirectory = path.dirname(asarPath)
 
@@ -61,11 +69,7 @@ function verifyPackage (outputDirectory, platform = process.platform) {
     throw new Error(contentsResult.stderr || 'Unable to inspect app.asar.')
   }
 
-  const unexpectedEntries = contentsResult.stdout
-    .split(/\r?\n/)
-    .filter(Boolean)
-    .map((entry) => entry.replace(/^\//, '').split('/')[0])
-    .filter((entry) => !expectedTopLevelEntries.has(entry))
+  const unexpectedEntries = findUnexpectedAsarEntries(contentsResult.stdout)
 
   if (unexpectedEntries.length > 0) {
     throw new Error(`Unexpected packaged entries: ${[...new Set(unexpectedEntries)].join(', ')}`)
@@ -111,4 +115,4 @@ if (require.main === module) {
   }
 }
 
-module.exports = { resolveFuseTarget, verifyPackage }
+module.exports = { findUnexpectedAsarEntries, resolveFuseTarget, verifyPackage }
