@@ -1,6 +1,11 @@
-// This file is required by the index.html file and will
-// be executed in the renderer process for that window.
-// No Node.js APIs are available in this process because
-// `nodeIntegration` is turned off. Use `preload.js` to
-// selectively enable features needed in the rendering
-// process.
+const connectionStatus = document.querySelector('#connection-status')
+
+function updateConnectionStatus () {
+  connectionStatus.textContent = navigator.onLine
+    ? 'Your device is online. Retry now or use the Navigation menu.'
+    : 'Your device appears to be offline. Retry after reconnecting.'
+}
+
+window.addEventListener('online', updateConnectionStatus)
+window.addEventListener('offline', updateConnectionStatus)
+updateConnectionStatus()

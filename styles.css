@@ -1,3 +1,59 @@
-/* styles.css */
+:root {
+  color-scheme: light dark;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #f5f2ec;
+  color: #25231f;
+}
 
-/* Add styles here to customize the appearance of your app */
+* { box-sizing: border-box; }
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  display: grid;
+  place-items: center;
+  padding: 32px;
+}
+
+main { width: min(480px, 100%); text-align: center; }
+
+.mark {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 24px;
+  display: grid;
+  place-items: center;
+  border-radius: 16px;
+  background: #20b875;
+  color: white;
+  font-size: 30px;
+  font-weight: 700;
+}
+
+h1 { margin: 0 0 12px; font-size: 28px; }
+p { margin: 0; color: #6c6860; line-height: 1.6; }
+
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin: 28px 0 18px;
+}
+
+a {
+  border: 1px solid #b9b4aa;
+  border-radius: 8px;
+  color: inherit;
+  padding: 10px 16px;
+  text-decoration: none;
+}
+
+a:hover, a:focus-visible { border-color: #20b875; outline: none; }
+a.primary { border-color: #20b875; background: #20b875; color: white; }
+.hint { font-size: 13px; }
+
+@media (prefers-color-scheme: dark) {
+  :root { background: #1c1d1b; color: #f3f1ec; }
+  p { color: #aaa69e; }
+  a { border-color: #55524c; }
+}

@@ -1,19 +1,26 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+    <meta charset="utf-8">
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; style-src 'self'; script-src 'self'; base-uri 'none'; form-action 'none'"
+    >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="./styles.css" rel="stylesheet">
-    <title>Hello World!</title>
+    <title>WeRead is unavailable</title>
   </head>
   <body>
-    <h1>Hello World!</h1>
-    We are using Node.js <span id="node-version"></span>,
-    Chromium <span id="chrome-version"></span>,
-    and Electron <span id="electron-version"></span>.
-
-    <!-- You can also require other files to run in this process -->
+    <main>
+      <div class="mark" aria-hidden="true">文</div>
+      <h1>WeRead is unavailable</h1>
+      <p>The website could not be loaded. Check your connection, then try again.</p>
+      <div class="actions">
+        <a class="primary" href="https://weread.qq.com/">Retry</a>
+        <a href="https://weread.qq.com/" target="_blank" rel="noopener noreferrer">Open in browser</a>
+      </div>
+      <p class="hint" id="connection-status">You can also retry from the Navigation menu.</p>
+    </main>
     <script src="./renderer.js"></script>
   </body>
 </html>

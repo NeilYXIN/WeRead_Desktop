@@ -1,41 +1,80 @@
 {
   "name": "weread",
   "productName": "WeRead",
-  "description": "WeRead",
+  "description": "An unofficial, security-focused desktop wrapper for WeRead",
   "homepage": "https://github.com/NeilYXIN/WeRead_Desktop",
-  "keywords": [],
-  "main": "./main.js",
-  "version": "1.0.4",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NeilYXIN/WeRead_Desktop.git"
+  },
+  "bugs": {
+    "url": "https://github.com/NeilYXIN/WeRead_Desktop/issues"
+  },
+  "keywords": [
+    "electron",
+    "reader",
+    "weread"
+  ],
+  "main": "main.js",
+  "version": "1.1.0",
   "author": "Xin Yang <96xinyang@gmail.com> (https://neilyxin.com)",
-  "maintainer": "${author}",
+  "maintainers": [
+    "Xin Yang <96xinyang@gmail.com> (https://neilyxin.com)"
+  ],
   "license": "MIT",
+  "private": true,
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "packageManager": "npm@11.6.0",
   "scripts": {
     "start": "electron .",
-    "postinstall": "electron-builder install-app-deps",
-    "dir": "electron-builder --dir",
-    "dist": "electron-builder"
+    "check": "node scripts/check-syntax.js && node --test",
+    "test": "node --test",
+    "audit": "npm audit --audit-level=high",
+    "pack": "node scripts/build.js --dir",
+    "dist": "node scripts/build.js",
+    "dist:mac": "node scripts/build.js --mac --universal",
+    "dist:win": "node scripts/build.js --win --x64",
+    "dist:linux": "node scripts/build.js --linux --x64"
   },
   "devDependencies": {
-    "electron": "^33.3.0",
-    "electron-builder": "^25.1.8",
-    "electron-icon-builder": "^2.0.1",
-    "yargs": "^17.7.2",
-    "yargs-parser": "^21.1.1"
+    "@electron/fuses": "2.1.3",
+    "electron": "44.4.3",
+    "electron-builder": "26.16.1"
   },
   "build": {
     "appId": "com.neilyxin.weread",
     "productName": "WeRead",
+    "asar": true,
+    "files": [
+      "main.js",
+      "lib/**/*",
+      "index.html",
+      "renderer.js",
+      "styles.css"
+    ],
     "directories": {
       "output": "release-builds",
       "buildResources": "assets"
     },
-    "copyright": "Copyright © 2024 Xin Yang",
+    "copyright": "Copyright © 2026 Xin Yang",
+    "electronFuses": {
+      "runAsNode": false,
+      "enableCookieEncryption": false,
+      "enableNodeOptionsEnvironmentVariable": false,
+      "enableNodeCliInspectArguments": false,
+      "enableEmbeddedAsarIntegrityValidation": true,
+      "onlyLoadAppFromAsar": true,
+      "loadBrowserProcessSpecificV8Snapshot": false,
+      "grantFileProtocolExtraPrivileges": false
+    },
     "dmg": {
       "background": null,
       "backgroundColor": "#ffffff",
       "window": {
-        "width": "400",
-        "height": "300"
+        "width": 400,
+        "height": 300
       },
       "contents": [
         {
@@ -53,13 +92,23 @@
     "mac": {
       "target": {
         "target": "dmg",
-        "arch": "universal"
+        "arch": [
+          "universal"
+        ]
       },
+      "artifactName": "${productName}-${version}-${arch}.${ext}",
       "icon": "assets/icons/mac/icon.icns",
-      "category": "public.app-category.utilities"
+      "category": "public.app-category.utilities",
+      "hardenedRuntime": true
     },
     "win": {
-      "target": "nsis",
+      "target": {
+        "target": "nsis",
+        "arch": [
+          "x64"
+        ]
+      },
+      "artifactName": "${productName}-Setup-${version}-${arch}.${ext}",
       "icon": "assets/icons/win/icon.ico"
     },
     "linux": {
@@ -67,6 +116,7 @@
         "AppImage",
         "deb"
       ],
+      "artifactName": "${productName}-${version}-${arch}.${ext}",
       "icon": "assets/icons/png",
       "category": "Utility"
     }

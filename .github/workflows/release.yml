@@ -1,0 +1,146 @@
+name: Release
+
+on:
+  workflow_dispatch:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run check
+      - run: npm run audit
+      - name: Verify release tag
+        if: github.event_name == 'push'
+        run: node scripts/verify-release-tag.js
+
+  build:
+    needs: validate
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: macos-latest
+            platform: macos
+          - runner: windows-latest
+            platform: windows
+          - runner: ubuntu-latest
+            platform: linux
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+
+      - name: Determine signing availability
+        id: signing
+        shell: bash
+        env:
+          PLATFORM: ${{ matrix.platform }}
+          MAC_CSC_LINK: ${{ secrets.MAC_CSC_LINK }}
+          MAC_CSC_KEY_PASSWORD: ${{ secrets.MAC_CSC_KEY_PASSWORD }}
+          APPLE_API_KEY_BASE64: ${{ secrets.APPLE_API_KEY_BASE64 }}
+          APPLE_API_KEY_ID: ${{ secrets.APPLE_API_KEY_ID }}
+          APPLE_API_ISSUER: ${{ secrets.APPLE_API_ISSUER }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          WIN_CSC_LINK: ${{ secrets.WIN_CSC_LINK }}
+          WIN_CSC_KEY_PASSWORD: ${{ secrets.WIN_CSC_KEY_PASSWORD }}
+        run: |
+          signed=false
+          if [[ "$PLATFORM" == "linux" ]]; then
+            signed=true
+          elif [[ "$PLATFORM" == "macos" && -n "$MAC_CSC_LINK" && -n "$MAC_CSC_KEY_PASSWORD" && -n "$APPLE_API_KEY_BASE64" && -n "$APPLE_API_KEY_ID" && -n "$APPLE_API_ISSUER" && -n "$APPLE_TEAM_ID" ]]; then
+            signed=true
+          elif [[ "$PLATFORM" == "windows" && -n "$WIN_CSC_LINK" && -n "$WIN_CSC_KEY_PASSWORD" ]]; then
+            signed=true
+          fi
+          echo "signed=$signed" >> "$GITHUB_OUTPUT"
+
+      - name: Prepare Apple notarization key
+        if: matrix.platform == 'macos' && steps.signing.outputs.signed == 'true'
+        shell: bash
+        env:
+          APPLE_API_KEY_BASE64: ${{ secrets.APPLE_API_KEY_BASE64 }}
+        run: python3 -c "import base64, os, pathlib; pathlib.Path(os.environ['RUNNER_TEMP'], 'AuthKey.p8').write_bytes(base64.b64decode(os.environ['APPLE_API_KEY_BASE64']))"
+
+      - name: Build signed and notarized macOS artifact
+        if: matrix.platform == 'macos' && steps.signing.outputs.signed == 'true'
+        env:
+          CSC_LINK: ${{ secrets.MAC_CSC_LINK }}
+          CSC_KEY_PASSWORD: ${{ secrets.MAC_CSC_KEY_PASSWORD }}
+          APPLE_API_KEY: ${{ runner.temp }}/AuthKey.p8
+          APPLE_API_KEY_ID: ${{ secrets.APPLE_API_KEY_ID }}
+          APPLE_API_ISSUER: ${{ secrets.APPLE_API_ISSUER }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        run: npm run dist:mac -- --config.mac.notarize=true
+
+      - name: Build unsigned macOS artifact
+        if: matrix.platform == 'macos' && steps.signing.outputs.signed != 'true'
+        run: npm run dist:mac
+
+      - name: Build signed Windows artifact
+        if: matrix.platform == 'windows' && steps.signing.outputs.signed == 'true'
+        env:
+          CSC_LINK: ${{ secrets.WIN_CSC_LINK }}
+          CSC_KEY_PASSWORD: ${{ secrets.WIN_CSC_KEY_PASSWORD }}
+        run: npm run dist:win
+
+      - name: Build unsigned Windows artifact
+        if: matrix.platform == 'windows' && steps.signing.outputs.signed != 'true'
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+        run: npm run dist:win
+
+      - name: Build Linux artifacts
+        if: matrix.platform == 'linux'
+        run: npm run dist:linux
+
+      - name: Verify packaged contents and Electron fuses
+        run: node scripts/verify-package.js release-builds
+
+      - name: Label artifacts and generate checksums
+        shell: bash
+        run: node scripts/finalize-artifacts.js release-builds "${{ steps.signing.outputs.signed }}" "${{ matrix.platform }}"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release-${{ matrix.platform }}
+          if-no-files-found: error
+          retention-days: 14
+          path: |
+            release-builds/*.dmg
+            release-builds/*.exe
+            release-builds/*.AppImage
+            release-builds/*.deb
+            release-builds/SHA256SUMS-*.txt
+            release-builds/SIGNING-STATUS-*.txt
+
+  publish:
+    if: github.event_name == 'push'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v5
+        with:
+          pattern: release-*
+          path: release-assets
+          merge-multiple: true
+      - uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          files: release-assets/*
