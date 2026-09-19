@@ -1,6 +1,7 @@
 {
   "name": "weread",
   "productName": "WeRead",
+  "desktopName": "weread.desktop",
   "description": "An unofficial, security-focused desktop wrapper for WeRead",
   "homepage": "https://github.com/NeilYXIN/WeRead_Desktop",
   "repository": {
@@ -118,7 +119,8 @@
       ],
       "artifactName": "${productName}-${version}-${arch}.${ext}",
       "icon": "assets/icons/png",
-      "category": "Utility"
+      "category": "Utility",
+      "syncDesktopName": true
     }
   }
 }

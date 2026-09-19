@@ -17,6 +17,12 @@ function hasSigningIdentity (args, environment) {
 function buildArguments (args, platform = process.platform, environment = process.env) {
   const result = [...args]
 
+  // electron-builder otherwise treats any CI environment as permission to
+  // publish. Releases are uploaded by the dedicated GitHub Actions job.
+  if (!result.some((argument) => argument === '--publish' || argument === '-p' || argument.startsWith('--publish='))) {
+    result.push('--publish=never')
+  }
+
   // Fuse changes invalidate Electron's upstream macOS signature. Ad-hoc signing
   // keeps local/unsigned builds runnable without pretending they are trusted.
   if (targetsMac(result, platform) && !hasSigningIdentity(result, environment)) {
