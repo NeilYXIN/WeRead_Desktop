@@ -2,7 +2,7 @@ const connectionStatus = document.querySelector('#connection-status')
 
 function updateConnectionStatus () {
   connectionStatus.textContent = navigator.onLine
-    ? 'Your device is online. Retry now or use the Navigation menu.'
+    ? 'Your device appears online, but WeRead could not be reached. Retry now or use the Navigation menu.'
     : 'Your device appears to be offline. Retry after reconnecting.'
 }
 

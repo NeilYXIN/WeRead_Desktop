@@ -26,6 +26,13 @@ WeRead Desktop is a small Electron wrapper for the official [WeRead website](htt
 
 ## What's new
 
+### v1.1.1
+
+- Fixed blank-window startup when WeRead is unavailable by serving a clear local recovery screen through a restricted internal protocol.
+- Prevented concurrent failure handlers from interrupting recovery-page navigation.
+- Strengthened package verification so required recovery resources cannot be omitted unnoticed.
+- Updated Electron from 44.4.3 to 44.4.5.
+
 ### v1.1.0
 
 - Upgraded from Electron 33 to the Electron 44 release line.

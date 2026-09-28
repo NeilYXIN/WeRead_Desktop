@@ -1,10 +1,10 @@
-const path = require('node:path')
-const { pathToFileURL } = require('node:url')
-const { app, BrowserWindow, dialog, Menu, net, screen, session, shell } = require('electron')
+const { app, BrowserWindow, dialog, Menu, net, protocol, screen, session, shell } = require('electron')
 
-const { HOME_URL, RELEASES_URL, SESSION_PARTITION } = require('./lib/constants')
+const { HOME_URL, RECOVERY_SCHEME, RECOVERY_URL, RELEASES_URL, SESSION_PARTITION } = require('./lib/constants')
 const { classifyNavigation, isRecoveryUrl, isTrustedWeReadUrl } = require('./lib/navigation')
 const { isPermissionAllowed } = require('./lib/permissions')
+const { createRecoveryProtocolHandler } = require('./lib/recovery-protocol')
+const { createSingleFlight } = require('./lib/single-flight')
 const { checkForUpdates } = require('./lib/update-check')
 const {
   DEFAULT_UPDATE_PREFERENCES,
@@ -17,18 +17,17 @@ const { isRecentUserGesture } = require('./lib/user-gesture')
 const { readWindowState, writeWindowState } = require('./lib/window-state')
 
 app.enableSandbox()
+protocol.registerSchemesAsPrivileged([
+  { scheme: RECOVERY_SCHEME, privileges: { secure: true, standard: true } }
+])
 
 const hasSingleInstanceLock = app.requestSingleInstanceLock()
 let mainWindow = null
 let isQuitting = false
 let updatePreferences = { ...DEFAULT_UPDATE_PREFERENCES }
 
-function recoveryFilePath () {
-  return path.join(__dirname, 'index.html')
-}
-
 function recoveryFileUrl () {
-  return pathToFileURL(recoveryFilePath()).href
+  return RECOVERY_URL
 }
 
 function openExternalHttps (url) {
@@ -36,16 +35,17 @@ function openExternalHttps (url) {
   void shell.openExternal(url)
 }
 
-async function loadRecoveryPage () {
-  if (!mainWindow || mainWindow.isDestroyed()) return
+const loadRecoveryPage = createSingleFlight(async () => {
+  const window = mainWindow
+  if (!window || window.isDestroyed() || isRecoveryUrl(window.webContents.getURL(), RECOVERY_URL)) return
 
   try {
-    await mainWindow.loadFile(recoveryFilePath())
+    await window.loadURL(RECOVERY_URL)
   } catch (error) {
-    if (isQuitting || !mainWindow || mainWindow.isDestroyed()) return
+    if (isQuitting || window.isDestroyed()) return
     console.error('Unable to load the recovery page:', error)
   }
-}
+})
 
 async function loadWeRead (url = HOME_URL) {
   if (!mainWindow || mainWindow.isDestroyed() || !isTrustedWeReadUrl(url)) return
@@ -54,12 +54,17 @@ async function loadWeRead (url = HOME_URL) {
     await mainWindow.loadURL(url)
   } catch (error) {
     if (isQuitting || !mainWindow || mainWindow.isDestroyed()) return
-    console.error('Unable to load WeRead:', error)
+    const replacedByRecovery = error?.code === 'ERR_ABORTED' && isRecoveryUrl(error?.url, RECOVERY_URL)
+    if (!replacedByRecovery) console.error('Unable to load WeRead:', error)
     await loadRecoveryPage()
   }
 }
 
 function configureSession (persistentSession) {
+  persistentSession.protocol.handle(
+    RECOVERY_SCHEME,
+    createRecoveryProtocolHandler(__dirname, (error) => console.error('Unable to read a recovery resource:', error))
+  )
   persistentSession.setUserAgent(stripElectronFromUserAgent(persistentSession.getUserAgent()))
 
   persistentSession.setPermissionCheckHandler((webContents, permission, requestingOrigin, details) => {

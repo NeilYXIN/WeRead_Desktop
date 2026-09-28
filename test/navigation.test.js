@@ -1,10 +1,9 @@
 const assert = require('node:assert/strict')
 const { test } = require('node:test')
-const { pathToFileURL } = require('node:url')
 
 const { classifyNavigation, isTrustedWeReadUrl, parseUrl } = require('../lib/navigation')
 
-const recoveryUrl = pathToFileURL('/tmp/weread recovery/index.html').href
+const recoveryUrl = 'weread-app://recovery/index.html'
 
 test('classifies exact WeRead HTTPS pages as internal', () => {
   assert.equal(classifyNavigation('https://weread.qq.com/', recoveryUrl), 'internal')
@@ -36,5 +35,6 @@ test('blocks unsafe and malformed URLs', () => {
 test('allows only the exact local recovery page', () => {
   assert.equal(classifyNavigation(recoveryUrl, recoveryUrl), 'localRecovery')
   assert.equal(classifyNavigation(`${recoveryUrl}?changed=true`, recoveryUrl), 'blocked')
-  assert.equal(classifyNavigation(pathToFileURL('/tmp/other.html').href, recoveryUrl), 'blocked')
+  assert.equal(classifyNavigation('weread-app://recovery/other.html', recoveryUrl), 'blocked')
+  assert.equal(classifyNavigation('file:///tmp/index.html', recoveryUrl), 'blocked')
 })

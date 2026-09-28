@@ -2,7 +2,11 @@ const assert = require('node:assert/strict')
 const path = require('node:path')
 const { test } = require('node:test')
 
-const { findUnexpectedAsarEntries, resolveFuseTarget } = require('../scripts/verify-package')
+const {
+  findMissingAsarEntries,
+  findUnexpectedAsarEntries,
+  resolveFuseTarget
+} = require('../scripts/verify-package')
 
 const packageMetadata = {
   name: 'weread',
@@ -23,6 +27,11 @@ test('reports unexpected ASAR entries on either platform', () => {
     findUnexpectedAsarEntries('/index.html\n/secrets.txt\n\\debug.log\r\n'),
     ['secrets.txt', 'debug.log']
   )
+})
+
+test('reports required ASAR entries that are absent', () => {
+  const listing = '/lib\n/lib/constants.js\n/main.js\n/package.json\n'
+  assert.deepEqual(findMissingAsarEntries(listing), ['index.html', 'renderer.js', 'styles.css'])
 })
 
 test('resolves the packaged macOS app bundle for fuse inspection', () => {

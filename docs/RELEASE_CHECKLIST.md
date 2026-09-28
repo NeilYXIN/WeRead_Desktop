@@ -4,7 +4,7 @@ This project uses the same GitHub Actions workflow for private release candidate
 
 ## 1. Prepare the source
 
-- [ ] Confirm `package.json` contains the intended version, such as `1.1.0`.
+- [ ] Confirm `package.json` contains the intended version, such as `1.1.1`.
 - [ ] Review `git status` and the complete diff; do not include generated `release-builds/` or secrets.
 - [ ] Run `npm ci` from a clean dependency state.
 - [ ] Run `npm run check` and confirm all tests pass.
@@ -72,11 +72,11 @@ Only proceed after the release-candidate workflow and available smoke tests pass
 git switch main
 git pull --ff-only
 git status --short
-git tag -a v1.1.0 -m "WeRead Desktop v1.1.0"
-git push origin v1.1.0
+git tag -a v1.1.1 -m "WeRead Desktop v1.1.1"
+git push origin v1.1.1
 ```
 
-Replace `1.1.0` with the exact version in `package.json`. Do not reuse or move a published version tag; fix the problem and create a new patch version instead.
+Replace `1.1.1` with the exact version in `package.json`. Do not reuse or move a published version tag; fix the problem and create a new patch version instead.
 
 The tag-triggered **Release** workflow verifies that the tag equals `v${package.version}`, rebuilds all artifacts from the tagged commit, and publishes a GitHub Release with generated notes.
 
