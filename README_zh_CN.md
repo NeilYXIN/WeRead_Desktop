@@ -31,6 +31,7 @@ WeRead Desktop 是官方[微信读书网页版](https://weread.qq.com/)的轻量
 - 修复微信读书网站不可用时启动出现空白窗口的问题，改用受限的内部协议可靠显示本地恢复页面。
 - 防止多个失败处理流程同时加载恢复页面并互相中断。
 - 加强安装包内容验证，确保离线恢复所需文件不会被遗漏。
+- 将体积较大的 macOS 通用版拆分为 Apple Silicon 和 Intel 两个安装包，并移除未使用的 Electron 语言资源。
 - 将 Electron 从 44.4.3 更新至 44.4.5。
 
 ### v1.1.0
@@ -60,7 +61,8 @@ v1.1.0 的代码审查、实现、测试和发布加固工作由 OpenAI Codex �
 
 | 平台 | 架构 | 格式 |
 | --- | --- | --- |
-| macOS | Intel + Apple Silicon（通用版） | DMG |
+| macOS | Apple Silicon（arm64） | DMG |
+| macOS | Intel（x64） | DMG |
 | Windows 10 或更高版本 | x64 | NSIS 安装程序 |
 | Linux | x64 | AppImage 和 deb |
 
@@ -70,7 +72,7 @@ Release 文件包含 SHA-256 校验值和签名状态说明。配置签名证书
 
 ### macOS
 
-下载通用版 DMG，打开后将 WeRead 拖入“应用程序”文件夹。未签名版本可能需要在 macOS“隐私与安全性”设置中明确允许。
+Apple Silicon Mac 下载 arm64 DMG，Intel Mac 下载 x64 DMG。打开后将 WeRead 拖入“应用程序”文件夹。未签名版本可能需要在 macOS“隐私与安全性”设置中明确允许。
 
 ### Windows
 

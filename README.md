@@ -31,6 +31,7 @@ WeRead Desktop is a small Electron wrapper for the official [WeRead website](htt
 - Fixed blank-window startup when WeRead is unavailable by serving a clear local recovery screen through a restricted internal protocol.
 - Prevented concurrent failure handlers from interrupting recovery-page navigation.
 - Strengthened package verification so required recovery resources cannot be omitted unnoticed.
+- Replaced the oversized universal macOS build with separate Apple Silicon and Intel packages, and removed unused Electron language resources.
 - Updated Electron from 44.4.3 to 44.4.5.
 
 ### v1.1.0
@@ -60,7 +61,8 @@ Download the newest build from [GitHub Releases](https://github.com/NeilYXIN/WeR
 
 | Platform | Architecture | Format |
 | --- | --- | --- |
-| macOS | Intel + Apple Silicon (universal) | DMG |
+| macOS | Apple Silicon (arm64) | DMG |
+| macOS | Intel (x64) | DMG |
 | Windows 10 or later | x64 | NSIS installer |
 | Linux | x64 | AppImage and deb |
 
@@ -70,7 +72,7 @@ Release files include SHA-256 checksums and a signing-status note. macOS and Win
 
 ### macOS
 
-Download the universal DMG, open it, and drag WeRead into the Applications folder. Unsigned builds may require an explicit override in macOS Privacy & Security settings.
+Download the arm64 DMG for an Apple Silicon Mac or the x64 DMG for an Intel Mac. Open it and drag WeRead into the Applications folder. Unsigned builds may require an explicit override in macOS Privacy & Security settings.
 
 ### Windows
 

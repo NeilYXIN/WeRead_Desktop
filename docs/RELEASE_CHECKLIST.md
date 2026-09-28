@@ -23,7 +23,7 @@ This project uses the same GitHub Actions workflow for private release candidate
    - `release-macos`
    - `release-windows`
    - `release-linux`
-6. Extract each downloaded ZIP. Confirm it contains the expected installer, `SHA256SUMS-<platform>.txt`, and `SIGNING-STATUS-<platform>.txt`.
+6. Extract each downloaded ZIP. Confirm it contains the expected installer, `SHA256SUMS-<platform>.txt`, and `SIGNING-STATUS-<platform>.txt`. The macOS artifact must contain separate `arm64` and `x64` DMGs rather than a universal DMG.
 
 Manual workflow runs do not create a GitHub Release. Candidate artifacts are retained by GitHub Actions for 14 days.
 
@@ -33,13 +33,14 @@ Manual workflow runs do not create a GitHub Release. Candidate artifacts are ret
 
 - [ ] `npm ci`, `npm run check`, and `npm run audit` passed.
 - [ ] macOS, Windows, and Linux packaging jobs passed on their native GitHub runners.
+- [ ] The macOS artifact contains one arm64 DMG and one x64 DMG, and its checksum file lists both.
 - [ ] Packaged ASAR contents and Electron fuses passed verification.
 - [ ] Every installer has a SHA-256 checksum and signing-status file.
 - [ ] A locally calculated checksum matches the accompanying checksum file.
 
 ### WeRead smoke tests
 
-Run these checks on every platform available to you. Ask a trusted user or contributor to cover Windows/Linux when necessary; never put account credentials in CI.
+Run these checks on every platform and architecture available to you. Test the arm64 DMG on Apple Silicon and the x64 DMG on Intel when possible. Ask a trusted user or contributor to cover unavailable hardware, Windows, or Linux; never put account credentials in CI.
 
 - [ ] The installer/package opens successfully.
 - [ ] QR login succeeds and the session persists after relaunch.
@@ -82,7 +83,7 @@ The tag-triggered **Release** workflow verifies that the tag equals `v${package.
 
 ## 5. Final GitHub checks
 
-- [ ] The published release contains the DMG, EXE, AppImage, deb, checksums, and signing-status files.
+- [ ] The published release contains both macOS DMGs (arm64 and x64), plus the EXE, AppImage, deb, checksums, and signing-status files.
 - [ ] Artifact filenames use the expected version and architecture.
 - [ ] Signing status is accurate and unsigned artifacts are clearly labeled.
 - [ ] The latest-release link resolves to the new release.

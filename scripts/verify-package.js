@@ -67,11 +67,17 @@ function resolveFuseTarget (asarPath, platform, packageMetadata) {
 
 function verifyPackage (outputDirectory, platform = process.platform) {
   const asarFiles = findFiles(outputDirectory, 'app.asar')
-  if (asarFiles.length !== 1) {
-    throw new Error(`Expected one app.asar under ${outputDirectory}, found ${asarFiles.length}.`)
+  if (asarFiles.length === 0) {
+    throw new Error(`Expected at least one app.asar under ${outputDirectory}, found none.`)
   }
 
-  const asarPath = asarFiles[0]
+  const packageMetadata = require(path.join(__dirname, '..', 'package.json'))
+  for (const asarPath of asarFiles) {
+    verifyAsar(asarPath, platform, packageMetadata)
+  }
+}
+
+function verifyAsar (asarPath, platform, packageMetadata) {
   const asarCommand = path.join(__dirname, '..', 'node_modules', '@electron', 'asar', 'bin', 'asar.js')
   const contentsResult = spawnSync(process.execPath, [asarCommand, 'list', asarPath], { encoding: 'utf8' })
   if (contentsResult.status !== 0) {
@@ -88,7 +94,6 @@ function verifyPackage (outputDirectory, platform = process.platform) {
     throw new Error(`Unexpected packaged entries: ${[...new Set(unexpectedEntries)].join(', ')}`)
   }
 
-  const packageMetadata = require(path.join(__dirname, '..', 'package.json'))
   const fuseTarget = resolveFuseTarget(asarPath, platform, packageMetadata)
   if (!fs.statSync(fuseTarget).isFile() && platform !== 'darwin') {
     throw new Error(`Expected packaged Electron executable at ${fuseTarget}.`)
@@ -128,4 +133,4 @@ if (require.main === module) {
   }
 }
 
-module.exports = { findMissingAsarEntries, findUnexpectedAsarEntries, resolveFuseTarget, verifyPackage }
+module.exports = { findMissingAsarEntries, findUnexpectedAsarEntries, resolveFuseTarget, verifyAsar, verifyPackage }

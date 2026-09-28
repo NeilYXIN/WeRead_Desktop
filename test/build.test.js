@@ -18,7 +18,7 @@ test('adds runnable ad-hoc settings to unsigned macOS builds', () => {
 })
 
 test('preserves hardened settings when a signing identity is configured', () => {
-  const args = ['--mac', '--universal']
+  const args = ['--mac', '--arm64', '--x64']
   assert.deepEqual(
     buildArguments(args, 'darwin', { CSC_LINK: 'certificate' }),
     [...args, '--publish=never']

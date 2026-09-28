@@ -35,7 +35,7 @@
     "audit": "npm audit --audit-level=high",
     "pack": "node scripts/build.js --dir",
     "dist": "node scripts/build.js",
-    "dist:mac": "node scripts/build.js --mac --universal",
+    "dist:mac": "node scripts/build.js --mac --arm64 --x64",
     "dist:win": "node scripts/build.js --win --x64",
     "dist:linux": "node scripts/build.js --linux --x64"
   },
@@ -48,6 +48,11 @@
     "appId": "com.neilyxin.weread",
     "productName": "WeRead",
     "asar": true,
+    "electronLanguages": [
+      "en",
+      "zh-CN",
+      "zh-TW"
+    ],
     "files": [
       "main.js",
       "lib/**/*",
@@ -94,7 +99,8 @@
       "target": {
         "target": "dmg",
         "arch": [
-          "universal"
+          "arm64",
+          "x64"
         ]
       },
       "artifactName": "${productName}-${version}-${arch}.${ext}",
