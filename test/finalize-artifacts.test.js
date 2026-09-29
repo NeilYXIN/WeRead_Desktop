@@ -24,8 +24,8 @@ test('labels multiple unsigned desktop artifacts and writes their checksums', ()
   const directory = temporaryDirectory()
   const arm64Contents = Buffer.from('arm64 installer fixture')
   const x64Contents = Buffer.from('x64 installer fixture')
-  fs.writeFileSync(path.join(directory, 'WeRead-1.1.1-arm64.dmg'), arm64Contents)
-  fs.writeFileSync(path.join(directory, 'WeRead-1.1.1-x64.dmg'), x64Contents)
+  fs.writeFileSync(path.join(directory, 'WeRead-1.1.2-arm64.dmg'), arm64Contents)
+  fs.writeFileSync(path.join(directory, 'WeRead-1.1.2-x64.dmg'), x64Contents)
 
   const result = spawnSync(
     process.execPath,
@@ -34,13 +34,13 @@ test('labels multiple unsigned desktop artifacts and writes their checksums', ()
   )
 
   assert.equal(result.status, 0, result.stderr)
-  assert.equal(fs.existsSync(path.join(directory, 'WeRead-1.1.1-arm64-unsigned.dmg')), true)
-  assert.equal(fs.existsSync(path.join(directory, 'WeRead-1.1.1-x64-unsigned.dmg')), true)
+  assert.equal(fs.existsSync(path.join(directory, 'WeRead-1.1.2-arm64-unsigned.dmg')), true)
+  assert.equal(fs.existsSync(path.join(directory, 'WeRead-1.1.2-x64-unsigned.dmg')), true)
   const arm64Hash = crypto.createHash('sha256').update(arm64Contents).digest('hex')
   const x64Hash = crypto.createHash('sha256').update(x64Contents).digest('hex')
   assert.equal(
     fs.readFileSync(path.join(directory, 'SHA256SUMS-macos.txt'), 'utf8'),
-    `${arm64Hash}  WeRead-1.1.1-arm64-unsigned.dmg\n${x64Hash}  WeRead-1.1.1-x64-unsigned.dmg\n`
+    `${arm64Hash}  WeRead-1.1.2-arm64-unsigned.dmg\n${x64Hash}  WeRead-1.1.2-x64-unsigned.dmg\n`
   )
   assert.match(fs.readFileSync(path.join(directory, 'SIGNING-STATUS-macos.txt'), 'utf8'), /unsigned/)
 })

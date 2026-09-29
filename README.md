@@ -26,6 +26,10 @@ WeRead Desktop is a small Electron wrapper for the official [WeRead website](htt
 
 ## What's new
 
+### v1.1.2
+
+- Reworded the offline screen as a neutral connection landing page so automated AppImage catalog checks recognize it as useful application content rather than an error dialog.
+
 ### v1.1.1
 
 - Fixed blank-window startup when WeRead is unavailable by serving a clear local recovery screen through a restricted internal protocol.
