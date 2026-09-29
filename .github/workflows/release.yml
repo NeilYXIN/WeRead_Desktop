@@ -128,9 +128,120 @@ jobs:
             release-builds/SHA256SUMS-*.txt
             release-builds/SIGNING-STATUS-*.txt
 
+  appimage-catalog-check:
+    needs: build
+    runs-on: ubuntu-22.04
+    env:
+      DISPLAY: :99
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          name: release-linux
+          path: appimage-input
+
+      - name: Install AppImage catalog test dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            desktop-file-utils \
+            firejail \
+            fonts-wqy-microhei \
+            icewm \
+            imagemagick \
+            libfuse2 \
+            tesseract-ocr \
+            tesseract-ocr-ara \
+            tesseract-ocr-chi-sim \
+            tesseract-ocr-ell \
+            tesseract-ocr-eng \
+            tesseract-ocr-rus \
+            x11-utils \
+            xdotool \
+            xvfb
+
+      - name: Run AppImage catalog compatibility test
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          appimage=$(find "$GITHUB_WORKSPACE/appimage-input" -maxdepth 1 -type f -name '*.AppImage' -print -quit)
+          test -n "$appimage"
+          chmod +x "$appimage"
+
+          test_root="$RUNNER_TEMP/appimage-catalog-test"
+          results="$GITHUB_WORKSPACE/appimage-test-results"
+          mkdir -p "$test_root" "$results"
+
+          catalog_commit=89ac9670cddfb2cfbf6f7d33aeade7e8c2eeba8b
+          lint_commit=19e30b276ffedf4d3b4b56bc6320f463625a74f8
+          curl --fail --silent --show-error --location \
+            "https://raw.githubusercontent.com/AppImage/appimage.github.io/$catalog_commit/code/take-screenshot.sh" \
+            --output "$test_root/take-screenshot.sh"
+          curl --fail --silent --show-error --location \
+            "https://raw.githubusercontent.com/AppImage/appimage.github.io/$catalog_commit/code/check-screenshot.sh" \
+            --output "$test_root/check-screenshot.sh"
+          curl --fail --silent --show-error --location \
+            "https://raw.githubusercontent.com/AppImage/AppImages/$lint_commit/appdir-lint.sh" \
+            --output "$test_root/appdir-lint.sh"
+          curl --fail --silent --show-error --location \
+            "https://raw.githubusercontent.com/AppImage/AppImages/$lint_commit/excludelist" \
+            --output "$test_root/excludelist"
+
+          cd "$test_root"
+          "$appimage" --appimage-extract > "$results/extract.log"
+          bash appdir-lint.sh squashfs-root | tee "$results/lint.log"
+
+          Xvfb "$DISPLAY" -screen 0 800x600x24 > "$results/xvfb.log" 2>&1 &
+          xvfb_pid=$!
+          icewm > "$results/icewm.log" 2>&1 &
+          wm_pid=$!
+          app_pid=
+          cleanup() {
+            if test -n "$app_pid"; then kill "$app_pid" 2>/dev/null || true; fi
+            kill "$wm_pid" "$xvfb_pid" 2>/dev/null || true
+          }
+          trap cleanup EXIT
+          sleep 2
+
+          firejail --quiet --noprofile --net=none "$test_root/squashfs-root/AppRun" \
+            > "$results/application.log" 2>&1 &
+          app_pid=$!
+
+          window_found=false
+          for attempt in $(seq 1 30); do
+            if ! kill -0 "$app_pid" 2>/dev/null; then
+              cat "$results/application.log"
+              echo "The AppImage exited before showing a window."
+              exit 1
+            fi
+            if xwininfo -tree -root 2>/dev/null | grep -qE '0x.*": \('; then
+              window_found=true
+              break
+            fi
+            sleep 1
+          done
+          if test "$window_found" != true; then
+            cat "$results/application.log"
+            echo "The AppImage did not show a window within 30 seconds."
+            exit 1
+          fi
+
+          sleep 2
+          bash take-screenshot.sh "$results/screenshot.png"
+          bash check-screenshot.sh "$results/screenshot.png" | tee "$results/screenshot-check.log"
+
+      - name: Upload AppImage catalog test evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: appimage-catalog-test
+          if-no-files-found: warn
+          retention-days: 14
+          path: appimage-test-results/
+
   publish:
     if: github.event_name == 'push'
-    needs: build
+    needs: [build, appimage-catalog-check]
     runs-on: ubuntu-24.04
     permissions:
       contents: write
