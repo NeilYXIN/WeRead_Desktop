@@ -10,7 +10,7 @@
 2. 在仓库 **Actions → Release → Run workflow** 中选择包含本次改动的分支，手动运行。若新增的 workflow 尚未显示，先将改动合并到默认分支。
 3. 等待整个运行成功，包括 `validate`、三个平台的 `build` 和 `appimage-catalog-check`。手动运行时 `publish` 应显示为 **skipped**，不会创建 GitHub Release。
 4. 下载 **menu-bar-linux-test**，检查 `states.jsonl` 和截图：初始显示、启用后隐藏、Alt 临时显示、修改更新设置后仍隐藏、重启后仍隐藏、隐藏时刷新、恢复显示、再次重启后显示。截图使用离线恢复页，不涉及微信读书账号。
-5. 下载 **release-linux** ZIP，记录本次 Actions 运行链接和完整 commit SHA。AppImage 名为 **WeRead-1.1.3-x64.AppImage**；包名没有 candidate 后缀，请明确标注这是测试候选包，用运行链接和 commit 区分每次构建。
+5. 下载 **release-linux** ZIP，记录本次 Actions 运行链接和完整 commit SHA。本次构建的 AppImage 名为 **WeRead-1.1.3-x86_64.AppImage**；包名没有 candidate 后缀，请明确标注这是测试候选包，用运行链接和 commit 区分每次构建。
 
 两个依赖更新已经包含在本次改动中，无需再单独合并 #13、#9 的旧锁文件。等本次组合改动合并到默认分支后，检查 Dependabot 是否自动关闭这两个 PR；若没有，可标记为“已由组合改动包含”并关闭。
 
@@ -25,8 +25,8 @@
 
    ```sh
    sha256sum -c SHA256SUMS-linux.txt
-   chmod +x WeRead-1.1.3-x64.AppImage
-   ./WeRead-1.1.3-x64.AppImage
+   chmod +x WeRead-1.1.3-x86_64.AppImage
+   ./WeRead-1.1.3-x86_64.AppImage
    ```
 
 5. 请对方完成下面的验收，并在 issue 中记录结果。
