@@ -1,10 +1,10 @@
 # Release checklist
 
-This project uses the same GitHub Actions workflow for private release candidates and published releases. A manual run builds downloadable artifacts without publishing; pushing a matching version tag publishes them.
+This project uses the same GitHub Actions workflow for release candidates and published releases. A manual run builds downloadable artifacts without publishing; pushing a matching version tag publishes them. Artifact access follows the repository's visibility and GitHub permissions.
 
 ## 1. Prepare the source
 
-- [ ] Confirm `package.json` contains the intended version, such as `1.1.2`.
+- [ ] Confirm `package.json` and `package-lock.json` contain the intended version, currently `1.1.3`.
 - [ ] Review `git status` and the complete diff; do not include generated `release-builds/` or secrets.
 - [ ] Run `npm ci` from a clean dependency state.
 - [ ] Run `npm run check` and confirm all tests pass.
@@ -35,6 +35,7 @@ Manual workflow runs do not create a GitHub Release. Candidate artifacts are ret
 - [ ] macOS, Windows, and Linux packaging jobs passed on their native GitHub runners.
 - [ ] The macOS artifact contains one arm64 DMG and one x64 DMG, and its checksum file lists both.
 - [ ] Packaged ASAR contents and Electron fuses passed verification.
+- [ ] The Linux native menu smoke test passed; review `menu-bar-linux-test` screenshots and logs. This covers X11 with IceWM, not Cinnamon or Wayland.
 - [ ] Every installer has a SHA-256 checksum and signing-status file.
 - [ ] A locally calculated checksum matches the accompanying checksum file.
 
@@ -56,6 +57,10 @@ Run these checks on every platform and architecture available to you. Test the a
 - [ ] Automatic update checks default to monthly and the daily/weekly/monthly choices persist after relaunch.
 - [ ] Disabling automatic checks persists after relaunch; **Check for Updates…** still works manually.
 - [ ] Automatic check failures are silent; manual failures are explained.
+- [ ] Linux/Windows: the menu bar is visible by default; **View → Auto-hide Menu Bar (Alt to Show)** hides it immediately; **Alt** reveals it temporarily and **Ctrl+Shift+M** restores it permanently.
+- [ ] Both menu bar choices survive restarting; changing update-check settings does not reset a hidden menu bar; navigation, zoom, and fullscreen still work.
+- [ ] macOS retains the native system menu and does not offer the window-menu auto-hide option.
+- [ ] For the menu bar change, the original reporter or another Cinnamon user has tested the candidate AppImage and confirmed the result. Record the workflow commit, desktop/session details, screenshots, and feedback using the [candidate test guide](MENU_BAR_TESTING_zh_CN.md) before publishing.
 
 ### Distribution trust
 
@@ -73,11 +78,11 @@ Only proceed after the release-candidate workflow and available smoke tests pass
 git switch main
 git pull --ff-only
 git status --short
-git tag -a v1.1.2 -m "WeRead Desktop v1.1.2"
-git push origin v1.1.2
+git tag -a v1.1.3 -m "WeRead Desktop v1.1.3"
+git push origin v1.1.3
 ```
 
-Replace `1.1.2` with the exact version in `package.json`. Do not reuse or move a published version tag; fix the problem and create a new patch version instead.
+Replace `1.1.3` if the version in `package.json` changes. Do not reuse or move a published version tag; fix the problem and create a new patch version instead.
 
 The tag-triggered **Release** workflow verifies that the tag equals `v${package.version}`, rebuilds all artifacts from the tagged commit, and publishes a GitHub Release with generated notes.
 

@@ -24,3 +24,4 @@ jobs:
         run: npm run pack -- --linux --x64
       - name: Verify packaged contents and Electron fuses
         run: node scripts/verify-package.js release-builds
+      - uses: ./.github/actions/menu-bar-smoke

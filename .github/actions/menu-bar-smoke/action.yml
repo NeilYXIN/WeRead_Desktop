@@ -1,0 +1,25 @@
+name: Linux menu bar smoke test
+description: Exercise the real Electron window under X11 and retain native-menu screenshots
+runs:
+  using: composite
+  steps:
+    - name: Install native GUI test dependencies
+      shell: bash
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y --no-install-recommends \
+          fonts-wqy-microhei icewm imagemagick libasound2t64 libgbm1 \
+          libgtk-3-0t64 libnss3 x11-utils xauth xdotool xvfb
+        # Allow Electron's sandbox on this disposable Ubuntu 24.04 runner.
+        sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+    - name: Test menu visibility, shortcuts, menu rebuilds, and persistence
+      shell: bash
+      run: xvfb-run -a -s '-screen 0 1440x1000x24' bash scripts/menu-bar-smoke.sh
+    - name: Upload native menu screenshots and logs
+      if: always()
+      uses: actions/upload-artifact@v7
+      with:
+        name: menu-bar-linux-test
+        if-no-files-found: warn
+        retention-days: 14
+        path: menu-bar-test-results/

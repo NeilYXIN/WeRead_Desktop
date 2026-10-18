@@ -17,6 +17,7 @@ WeRead Desktop is a small Electron wrapper for the official [WeRead website](htt
 - Supports macOS (Intel and Apple Silicon), Windows 10 or later, and Linux.
 - Keeps the existing login session and restores the previous window position and size.
 - Provides native Home, Back, Forward, Reload, Retry, About, and update-check commands.
+- On Linux and Windows, optionally auto-hides the menu bar and remembers the choice. Use **View → Auto-hide Menu Bar (Alt to Show)** or **Ctrl+Shift+M** to toggle; press **Alt** to reveal it temporarily. The menu bar stays visible by default. macOS retains its system menu.
 - Shows a local recovery page when WeRead is offline or the renderer fails.
 - Keeps `https://weread.qq.com` inside the app and opens other user-initiated HTTPS links in the default browser.
 - Runs remote content with Electron sandboxing, context isolation, no Node.js integration, and no preload bridge.
@@ -25,6 +26,13 @@ WeRead Desktop is a small Electron wrapper for the official [WeRead website](htt
 - Contains no telemetry, advertising, injected webpage scripts, or native WeRead API integration.
 
 ## What's new
+
+### v1.1.3
+
+- Added optional menu bar auto-hide on Linux and Windows, with Alt to reveal, Ctrl+Shift+M to toggle, and persistent preferences.
+- Updated Electron from 44.4.5 to 44.7.2 and electron-builder from 26.16.1 to 26.17.0, incorporating dependency updates proposed in PRs #13 and #9.
+- Repaired the dependency lockfile for clean installs and updated the vulnerable transitive build dependency http-cache-semantics to 4.3.0.
+- Added Linux native menu interaction tests with screenshots and a Cinnamon candidate-testing checklist before release.
 
 ### v1.1.2
 
@@ -110,13 +118,13 @@ npm run dist:win
 npm run dist:linux
 ```
 
-GitHub Actions is the recommended way to create all three platforms. Run the **Release** workflow manually to produce private release-candidate artifacts without publishing a release. After testing them, push a `vX.Y.Z` tag matching `package.json` to build and publish the GitHub Release. See the [release checklist](docs/RELEASE_CHECKLIST.md) for the complete procedure.
+GitHub Actions is the recommended way to create all three platforms. Run the **Release** workflow manually to produce downloadable candidate artifacts without publishing a release. After testing them, push a `vX.Y.Z` tag matching `package.json` to build and publish the GitHub Release. See the [release checklist](docs/RELEASE_CHECKLIST.md) for the complete procedure, and the [menu bar candidate test guide](docs/MENU_BAR_TESTING_zh_CN.md) for Cinnamon testing before release.
 
 ## Security and privacy
 
 Only the exact `https://weread.qq.com` origin can navigate inside the application. Other HTTPS links open in the system browser after a user action; HTTP, credential-bearing, malformed, local-file, JavaScript, and custom-scheme URLs are blocked. Web permissions are denied except for fullscreen and sanitized clipboard writes from the WeRead main frame.
 
-The legacy session partition name is intentionally retained so existing users remain signed in. Application-owned state files contain only window geometry, update-check timestamps, and update-check preferences. Electron cookie encryption is disabled to avoid macOS Keychain prompts; website session data remains in Chromium's local profile under the operating-system user account.
+The legacy session partition name is intentionally retained so existing users remain signed in. Application-owned state files contain only window geometry, menu bar preferences, update-check timestamps, and update-check preferences. Electron cookie encryption is disabled to avoid macOS Keychain prompts; website session data remains in Chromium's local profile under the operating-system user account.
 
 ## Notes
 
