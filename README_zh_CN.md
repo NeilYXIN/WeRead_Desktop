@@ -17,6 +17,7 @@ WeRead Desktop 是官方[微信读书网页版](https://weread.qq.com/)的轻量
 - 支持 macOS（Intel 和 Apple Silicon）、Windows 10 或更高版本以及 Linux。
 - 保留现有登录会话，并恢复上次的窗口位置和尺寸。
 - 提供主页、后退、前进、刷新、重试、关于和检查更新等原生菜单。
+- Linux 和 Windows 可通过 **View → Auto-hide Menu Bar (Alt to Show)** 或 **Ctrl+Shift+M** 切换菜单栏自动隐藏，并记住选择；单按 **Alt** 可临时显示。默认保持显示，macOS 保留系统菜单。
 - 微信读书离线或渲染进程异常时显示本地恢复页面。
 - 只有 `https://weread.qq.com` 保留在应用内，其他由用户点击的 HTTPS 链接使用默认浏览器打开。
 - 使用 Electron 沙盒和 context isolation，不启用 Node.js 集成或 preload 桥接。
@@ -25,6 +26,13 @@ WeRead Desktop 是官方[微信读书网页版](https://weread.qq.com/)的轻量
 - 不包含遥测、广告、网页注入脚本或微信读书原生 API 集成。
 
 ## 更新内容
+
+### v1.1.3
+
+- Linux 和 Windows 新增可选的菜单栏自动隐藏，支持 Alt 临时显示、Ctrl+Shift+M 切换，并记住设置。
+- 将 Electron 从 44.4.5 更新至 44.7.2，electron-builder 从 26.16.1 更新至 26.17.0，整合 PR #13 和 #9 提议的依赖更新。
+- 修复依赖锁文件以支持干净安装，并将存在漏洞的间接构建依赖 http-cache-semantics 更新至 4.3.0。
+- 增加带截图的 Linux 原生菜单交互测试，以及发布前的 Cinnamon 候选版本验收流程。
 
 ### v1.1.2
 
@@ -110,13 +118,19 @@ npm run dist:win
 npm run dist:linux
 ```
 
-推荐使用 GitHub Actions 同时构建三个平台。在 Actions 页面手动运行 **Release** workflow，会生成不会公开发布的候选安装包。完成测试后，推送一个与 `package.json` 版本一致的 `vX.Y.Z` 标签，即可构建并发布 GitHub Release。完整步骤请参阅 [Release 检查清单](docs/RELEASE_CHECKLIST.md)。
+推荐使用 GitHub Actions 同时构建三个平台。在 Actions 页面手动运行 **Release** workflow，会生成可下载的候选安装包，不会创建 GitHub Release。完成测试后，推送一个与 `package.json` 版本一致的 `vX.Y.Z` 标签，即可构建并发布 GitHub Release。完整步骤请参阅 [Release 检查清单](docs/RELEASE_CHECKLIST.md)；菜单栏功能请先按[候选版本测试指南](docs/MENU_BAR_TESTING_zh_CN.md)完成 Cinnamon 验收。
 
 ## 安全和隐私
 
 只有精确的 `https://weread.qq.com` 来源可以在应用内导航。其他 HTTPS 链接仅在用户操作后交给系统浏览器；HTTP、包含账号信息、格式错误、本地文件、JavaScript 和自定义协议地址会被阻止。网页权限默认拒绝，仅允许微信读书主页面使用全屏和安全剪贴板写入。
 
-为了让老用户保持登录，程序会继续使用原有的会话分区名称。应用自行保存的状态只有窗口位置、尺寸、更新检查时间和更新检查偏好。Electron Cookie 加密已关闭，以避免触发 macOS 钥匙串提示；网站会话数据仍保存在操作系统用户账户下的 Chromium 本地配置中。
+为了让老用户保持登录，程序会继续使用原有的会话分区名称。应用自行保存的状态只有窗口位置、尺寸、菜单栏偏好、更新检查时间和更新检查偏好。Electron Cookie 加密已关闭，以避免触发 macOS 钥匙串提示；网站会话数据仍保存在操作系统用户账户下的 Chromium 本地配置中。
+
+## 贡献与致谢
+
+- [@ChRomiumCR](https://github.com/ChRomiumCR) — 提出菜单栏隐藏需求，并在 Linux Mint 22.3 / Cinnamon 6.9 / X11 环境下测试 deb 和 AppImage 候选版本，帮助确认修复有效（[#12](https://github.com/NeilYXIN/WeRead_Desktop/issues/12)）。
+
+问题反馈、功能建议和测试，与代码和文档一样，都是欢迎的贡献。
 
 ## 说明
 

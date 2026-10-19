@@ -1,6 +1,13 @@
 const { app, BrowserWindow, dialog, Menu, net, protocol, screen, session, shell } = require('electron')
 
 const { HOME_URL, RECOVERY_SCHEME, RECOVERY_URL, RELEASES_URL, SESSION_PARTITION } = require('./lib/constants')
+const {
+  DEFAULT_MENU_PREFERENCES,
+  applyMenuBarPreferences,
+  readMenuPreferences,
+  supportsMenuBar,
+  writeMenuPreferences
+} = require('./lib/menu-bar')
 const { classifyNavigation, isRecoveryUrl, isTrustedWeReadUrl } = require('./lib/navigation')
 const { isPermissionAllowed } = require('./lib/permissions')
 const { createRecoveryProtocolHandler } = require('./lib/recovery-protocol')
@@ -25,6 +32,7 @@ const hasSingleInstanceLock = app.requestSingleInstanceLock()
 let mainWindow = null
 let isQuitting = false
 let updatePreferences = { ...DEFAULT_UPDATE_PREFERENCES }
+let menuPreferences = { ...DEFAULT_MENU_PREFERENCES }
 
 function recoveryFileUrl () {
   return RECOVERY_URL
@@ -152,6 +160,7 @@ function createWindow () {
     minWidth: 800,
     minHeight: 600,
     show: false,
+    ...(supportsMenuBar() ? { autoHideMenuBar: menuPreferences.autoHideMenuBar } : {}),
     navigateOnDragDrop: false,
     webPreferences: {
       contextIsolation: true,
@@ -162,6 +171,7 @@ function createWindow () {
     }
   })
 
+  applyMenuBarPreferences(mainWindow, menuPreferences)
   if (savedState.isMaximized) mainWindow.maximize()
 
   configureNavigation(mainWindow)
@@ -229,6 +239,20 @@ function showAboutDialog () {
     message: `${app.name} ${app.getVersion()}`,
     detail: 'An unofficial desktop wrapper for WeRead.'
   })
+}
+
+function saveMenuPreferences (menuItem) {
+  try {
+    menuPreferences = writeMenuPreferences(app.getPath('userData'), {
+      autoHideMenuBar: menuItem.checked
+    })
+    applyMenuBarPreferences(mainWindow, menuPreferences)
+  } catch (error) {
+    // Native checkbox items toggle before their click handler runs.
+    menuItem.checked = menuPreferences.autoHideMenuBar
+    console.error('Unable to save menu preferences:', error)
+    dialog.showErrorBox('Unable to save menu preference', 'The menu bar setting could not be saved. Please try again.')
+  }
 }
 
 function installApplicationMenu () {
@@ -312,11 +336,38 @@ function installApplicationMenu () {
         { label: 'File', submenu: [{ role: 'quit' }] },
         { role: 'editMenu' },
         navigationMenu,
-        { role: 'viewMenu' },
+        {
+          label: 'View',
+          submenu: [
+            { role: 'reload' },
+            { role: 'forceReload' },
+            { role: 'toggleDevTools' },
+            { type: 'separator' },
+            { role: 'resetZoom' },
+            { role: 'zoomIn' },
+            { role: 'zoomOut' },
+            { type: 'separator' },
+            { role: 'togglefullscreen' },
+            ...(supportsMenuBar()
+              ? [
+                  { type: 'separator' },
+                  {
+                    id: 'auto-hide-menu-bar',
+                    label: 'Auto-hide Menu Bar (Alt to Show)',
+                    type: 'checkbox',
+                    checked: menuPreferences.autoHideMenuBar,
+                    accelerator: 'Ctrl+Shift+M',
+                    click: saveMenuPreferences
+                  }
+                ]
+              : [])
+          ]
+        },
         helpMenu
       ]
 
   Menu.setApplicationMenu(Menu.buildFromTemplate(template))
+  applyMenuBarPreferences(mainWindow, menuPreferences)
 }
 
 if (!hasSingleInstanceLock) {
@@ -332,6 +383,7 @@ if (!hasSingleInstanceLock) {
   app.whenReady().then(() => {
     configureSession(session.fromPartition(SESSION_PARTITION))
     updatePreferences = readUpdatePreferences(app.getPath('userData'))
+    menuPreferences = readMenuPreferences(app.getPath('userData'))
     createWindow()
     installApplicationMenu()
     void runUpdateCheck(false)

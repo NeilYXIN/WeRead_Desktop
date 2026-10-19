@@ -78,3 +78,5 @@ typings/
 
 release-builds/
 *.dmg
+# Native desktop screenshots and logs from the Linux smoke test.
+menu-bar-test-results/

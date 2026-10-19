@@ -20,6 +20,7 @@ jobs:
       - run: npm ci
       - run: npm run check
       - run: npm run audit
+      - uses: ./.github/actions/menu-bar-smoke
       - name: Verify release tag
         if: github.event_name == 'push'
         run: node scripts/verify-release-tag.js
