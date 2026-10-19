@@ -126,6 +126,12 @@ npm run dist:linux
 
 为了让老用户保持登录，程序会继续使用原有的会话分区名称。应用自行保存的状态只有窗口位置、尺寸、菜单栏偏好、更新检查时间和更新检查偏好。Electron Cookie 加密已关闭，以避免触发 macOS 钥匙串提示；网站会话数据仍保存在操作系统用户账户下的 Chromium 本地配置中。
 
+## 贡献与致谢
+
+- [@ChRomiumCR](https://github.com/ChRomiumCR) — 提出菜单栏隐藏需求，并在 Linux Mint 22.3 / Cinnamon 6.9 / X11 环境下测试 deb 和 AppImage 候选版本，帮助确认修复有效（[#12](https://github.com/NeilYXIN/WeRead_Desktop/issues/12)）。
+
+问题反馈、功能建议和测试，与代码和文档一样，都是欢迎的贡献。
+
 ## 说明
 
 本项目仍是一个方便访问微信读书官方网站的小型业余项目。欢迎提交贡献、问题和建议。

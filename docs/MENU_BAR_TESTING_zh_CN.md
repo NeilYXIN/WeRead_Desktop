@@ -61,3 +61,11 @@
 CI 和手动 Release 的 `validate` 阶段还会运行真实 Electron，使用独立临时配置和 Linux X11/IceWM 虚拟桌面，通过系统键盘事件测试快捷键与 Alt，连续三次启动验证设置保持，并检查更新菜单重建。测试截图捕获整个桌面，因此包含原生菜单栏；无需登录微信读书，也不关闭应用沙盒。Ubuntu 临时 runner 会允许 Electron 创建沙盒所需的用户命名空间。
 
 这不能替代 Cinnamon 主题、全局菜单插件、Wayland 和实际阅读体验的人工验证。已有的 AppImage catalog 测试还会检查打包后的 AppImage 是否能启动并截图；菜单交互测试运行的是同一 commit 的源码，而非打包后的 AppImage。
+
+## v1.1.3 验收记录
+
+- 候选构建：[Actions 39132518827](https://github.com/NeilYXIN/WeRead_Desktop/actions/runs/39132518827)，程序源码 commit 为 `a012e076f521b5ae7eb17921162f3ff8013f17a8`。后续致谢、指南及发布说明的文档改动不进入安装包。
+- 自动验证：47 项测试、Linux X11/IceWM 菜单交互、macOS/Windows/Linux 构建、安装包内容与安全 fuse 检查、打包后的 AppImage 启动及截图检查均通过。Linux 候选包 SHA-256 校验通过。
+- macOS 自动验证：Electron 44.7.2 下的隔离启动及菜单重建检查通过；Apple Silicon 本地打包检查通过。
+- Cinnamon 人工验收：[@ChRomiumCR](https://github.com/ChRomiumCR) 在 Linux Mint 22.3 / Cinnamon 6.9 / X11、未使用全局菜单的环境下确认 deb 和 AppImage 均测试通过，并提供隐藏前后截图。原始记录见 [issue #12](https://github.com/NeilYXIN/WeRead_Desktop/issues/12)。
+- 尚待确认：维护者使用 macOS 候选安装包完成登录、书架、阅读、刷新和全屏检查。Windows 原生交互与 Wayland 未获得人工验证记录。

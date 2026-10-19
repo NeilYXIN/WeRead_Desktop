@@ -126,6 +126,12 @@ Only the exact `https://weread.qq.com` origin can navigate inside the applicatio
 
 The legacy session partition name is intentionally retained so existing users remain signed in. Application-owned state files contain only window geometry, menu bar preferences, update-check timestamps, and update-check preferences. Electron cookie encryption is disabled to avoid macOS Keychain prompts; website session data remains in Chromium's local profile under the operating-system user account.
 
+## Contributors and thanks
+
+- [@ChRomiumCR](https://github.com/ChRomiumCR) — requested menu bar hiding and tested both the deb and AppImage candidates on Linux Mint 22.3 / Cinnamon 6.9 / X11 ([#12](https://github.com/NeilYXIN/WeRead_Desktop/issues/12)).
+
+Bug reports, feature suggestions, and testing are welcome contributions alongside code and documentation.
+
 ## Notes
 
 This remains a small hobby project intended to make the official WeRead website more convenient to access. Contributions, bug reports, and suggestions are welcome.
