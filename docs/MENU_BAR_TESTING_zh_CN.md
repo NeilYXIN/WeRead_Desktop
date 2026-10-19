@@ -68,4 +68,5 @@ CI 和手动 Release 的 `validate` 阶段还会运行真实 Electron，使用�
 - 自动验证：47 项测试、Linux X11/IceWM 菜单交互、macOS/Windows/Linux 构建、安装包内容与安全 fuse 检查、打包后的 AppImage 启动及截图检查均通过。Linux 候选包 SHA-256 校验通过。
 - macOS 自动验证：Electron 44.7.2 下的隔离启动及菜单重建检查通过；Apple Silicon 本地打包检查通过。
 - Cinnamon 人工验收：[@ChRomiumCR](https://github.com/ChRomiumCR) 在 Linux Mint 22.3 / Cinnamon 6.9 / X11、未使用全局菜单的环境下确认 deb 和 AppImage 均测试通过，并提供隐藏前后截图。原始记录见 [issue #12](https://github.com/NeilYXIN/WeRead_Desktop/issues/12)。
-- 尚待确认：维护者使用 macOS 候选安装包完成登录、书架、阅读、刷新和全屏检查。Windows 原生交互与 Wayland 未获得人工验证记录。
+- macOS 人工验收：维护者确认使用 v1.1.3 候选安装包检查登录、书架、阅读、刷新和全屏，全部正常。
+- 覆盖范围：Windows 原生交互与 Wayland 未获得人工验证记录；Windows 打包和安装包检查已通过。
